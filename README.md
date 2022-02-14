@@ -2,6 +2,7 @@
 socket client - socket server - postgreSQL
 
 
+2021-01-18~2021-02-08 과제
 
 
 Socket Server : project1/server/
