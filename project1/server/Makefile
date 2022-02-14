@@ -1,6 +1,6 @@
-CPPFLAGS=-I /usr/local/pgsql/include
+CPPFLAGS=-I /var/lib/pgsql/include
 CFLAGS=-W -Wall
-LDFLAGS=-L /usr/local/pgsql/lib -lpq
+LDFLAGS=-L /var/lib/pgsql -lpq
 
 
 TARGET=server

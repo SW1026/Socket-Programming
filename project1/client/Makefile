@@ -7,5 +7,5 @@ par.o : par.h par.c
 
 .PHONY:
 clean :	
-	@rm -f main.o c.o par.o
+	@rm -f main.o c.o par.o client
 

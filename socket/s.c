@@ -1,7 +1,9 @@
 //서버 프로그램
 #include "s.h"
 
-void init_socket(){
+void 
+init_socket()
+{
 
 	char readBuff[BUF_SIZE],sendBuff[BUF_SIZE];
 	struct sockaddr_in server_addr, client_addr;
@@ -9,7 +11,8 @@ void init_socket(){
 	int listen_fd, connect_fd;
 	int client_len;
 
-	if((listen_fd = socket(AF_INET, SOCK_STREAM, 0)) == -1){
+	if((listen_fd = socket(AF_INET, SOCK_STREAM, 0)) == -1)
+	{
 		printf("Server : can't open stream socket\n");
 		exit(1);
 	}
@@ -20,28 +23,35 @@ void init_socket(){
 	server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 	server_addr.sin_port = htons(12345);
 
-	if(bind(listen_fd, (struct sockaddr *)&server_addr, sizeof(server_addr))<0){
+	if(bind(listen_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
+	{
 		printf("Server : can't bind local address.\n");
 		exit(1);
 	}
 
-	if(listen(listen_fd, 5)<0){
+	if(listen(listen_fd, 5) < 0)
+	{
 		printf("Server : can't listening connect.\n");
 		exit(1);
 	}
 
 	memset(readBuff, 0, sizeof(readBuff));
 	printf("Server : waiting connection: request.\n");
-	while(1){
+	while(1)
+	{
 		client_len = sizeof(client_addr);
-		if(((connect_fd = accept(listen_fd,(struct sockaddr*)&client_addr, &client_len)))<0){
+		if(((connect_fd = accept(listen_fd, (struct sockaddr*)&client_addr, &client_len))) < 0)
+		{
 			printf("Server : accept failed.\n");
 			exit(1);
 		}
 		
 		int pid = fork();
-		if(pid == 0){//자식서버
-			close(listen_fd); //자식서버의 리슨소켓을 닫아준다.
+		if(pid == 0)
+		{
+			//자식서버
+			//자식서버의 리슨소켓을 닫아준다.
+			close(listen_fd); 
 			inet_ntop(AF_INET,&client_addr.sin_addr.s_addr, client_ip, sizeof(client_ip));
 			printf("Server : %s clinet connected.\n",client_ip);
 			//msg_size = read(connect_fd, readBuff, 1024);
@@ -63,11 +73,15 @@ void init_socket(){
 				    sprintf(sendBuff,"");
 			    write(connect_fd, sendBuff, strlen(sendBuff));
 			}
-			close(connect_fd);//통신이 끝나서 자식서버의 커넥트소켓을 닫아준다.
+			//통신이 끝나서 자식서버의 커넥트소켓을 닫아준다.
+			close(connect_fd);
 			printf("Server : %s client closed.\n",client_ip);
-			exit(0);	//자식프로세스 정상종료
+			// 자식 프로세스 정상 종료
+			exit(0);
 		}
-		else{//부모서버.  커넥트 소켓을 닫아준다.
+		else
+		{
+			//부모서버.  커넥트 소켓을 닫아준다.
 			close(connect_fd);
 		}
 	}
@@ -76,7 +90,9 @@ void init_socket(){
 }
 
 
-int main(){
+int 
+main()
+{
 
 	init_socket();
 	return 0;

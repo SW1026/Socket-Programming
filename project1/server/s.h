@@ -6,8 +6,10 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h> //daemon()
-#include <libpq-fe.h> //postgres
+#include <libpq-fe.h>
+
 #include "netinet/in.h"
+
 #define MSG_SIZE 256	//클라이언트 -> 서버로 읽어들이는 값
 #define BUF_SIZE 4096
 
