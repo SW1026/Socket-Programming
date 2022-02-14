@@ -1,6 +1,6 @@
-#include<libgen.h>	//basename
-#include "s.h"
-#include "p.h"
+#include <libgen.h>
+#include "server.h"
+#include "postgres.h"
 
 int 
 main(int argc, char* argv[])

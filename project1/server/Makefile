@@ -1,17 +1,16 @@
-CPPFLAGS=-I /var/lib/pgsql/include
+CPPFLAGS=-I /usr/lib64/pgsql/include
 CFLAGS=-W -Wall
 LDFLAGS=-L /var/lib/pgsql -lpq
 
-
 TARGET=server
-OBJS=main.o s.o p.o
+OBJS=main.o server.o postgres.o
 
 $(TARGET) : $(OBJS)
 	@gcc $(CPPFLAGS) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-main.o : s.h p.h main.c
-s.o : s.h p.h s.c
-p.o : p.h p.c
+main.o : server.h postgres.h main.c
+s.o : server.h postgres.h server.c
+p.o : postgres.h postgres.c
 
 .PHONY:
 clean : 

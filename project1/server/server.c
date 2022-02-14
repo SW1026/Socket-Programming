@@ -1,9 +1,5 @@
-//서버 프로그램
-#include "s.h"	//sokcet
-#include "p.h"	//postgreSQL
-// p.h : ...  connect_testdb(),query_employee,PQfinish() 사용
-
-
+#include "server.h"
+#include "postgres.h"
 
 void 
 init_socket()
@@ -142,20 +138,22 @@ send_result(int connect_fd, struct Result* result, char* sendBuff, char*recvBuff
 			send(connect_fd, send_len, 4, 0);
 		}
 		else if(strcmp(result->type,"SELECT RESULT")==0)
-		{	//결과가 있을 경우
-			for(int i=0; i < result->rows; ++i)
+		{	
+			//결과가 있을 경우
+			int i;
+			for(i=0; i < result->rows; ++i)
 			{
-				///////////////////////////////// 데이터 길이 체크
+				// 데이터 길이 체크
 				sprintf(send_len,"%d",strlen(result->res[i]));
-				send(connect_fd, send_len, strlen(send_len),0);	//strlen(send_len)
-				///////////////////////////////// 데이터 보내도 되는지 응답 확인
+				send(connect_fd, send_len, strlen(send_len),0);
+				// 데이터 보내도 되는지 응답 확인
 				memset(recvBuff,0,sizeof(recvBuff));
 				recv(connect_fd, recvBuff, 2, 0);
 				if(strcmp(recvBuff,"OK")==0)
 				{
 					memset(sendBuff,0,sizeof(char)*BUF_SIZE);
 					sprintf(sendBuff,"%s",result->res[i]);
-					///////////////////////////////////////// 데이터 보냄
+					// 데이터 보냄
 					send(connect_fd,sendBuff,atoi(send_len),0);				//send(쿼리결과 1줄씩)
 					printf("%s",sendBuff);	//테스트
 				}

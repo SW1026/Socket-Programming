@@ -1,4 +1,4 @@
-#include "p.h"
+#include "postgres.h"
 
 
 //DB에 쿼리를 날리고 결과를 반환해주는 함수
@@ -7,7 +7,8 @@ query_employee(PGconn * conn, const char *query)
 {
 	//쿼리 결과들을 저장할 변수, 주소와 값 문제로 전역변수와  배열형태로 선언해주어야 함.
 	//res가 전역변수라서 이 함수가 불릴때마다 초기화를 해주어야 함.
-	for(int i=0; i<128;++i)
+	int i;
+	for(i=0; i<128;++i)
 	{
 		memset(result.res[i],0,sizeof(char)*128);
 	}
@@ -51,7 +52,8 @@ query_employee(PGconn * conn, const char *query)
 			else if(result.rows>0)
 			{
 				strcpy(result.type, "SELECT RESULT");
-				for(int row=0; row<result.rows; ++row)
+				int row;
+				for(row=0; row<result.rows; ++row)
 				{
 					char* id = PQgetvalue(query_res, row,0); //row행의 id컬럼값
 					char* name= PQgetvalue(query_res,row,1); //row행의 name 컬럼 반환

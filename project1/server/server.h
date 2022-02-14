@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <unistd.h> //daemon()
+#include <unistd.h>
 #include <libpq-fe.h>
 
 #include "netinet/in.h"

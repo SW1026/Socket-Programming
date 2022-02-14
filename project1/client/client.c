@@ -1,6 +1,5 @@
-#include "c.h"
+#include "client.h"
 #include "par.h"
-// g.h : send_query 의 parser() 함수
 
 int 
 init_socket()
@@ -74,7 +73,8 @@ send_query(int connect_fd)
 		}
 		if(strcmp(query,"BYE")==0)
 		{
-			return;//서버에게 종료메시지(BYE)를  보낸 후, 함수 리턴.
+			//서버에게 종료메시지(BYE)를  보낸 후, 함수 리턴.
+			return;
 		}
 
 		// ---------Server Reply---------
@@ -88,11 +88,13 @@ send_query(int connect_fd)
 		char * dml = strtok(str," ");
 
 		if(strcmp(dml,"show")==0)
-		{	// 쿼리 결과받아오기
+		{	
+			// 쿼리 결과받아오기
 			while(1)
 			{
 				if((recv(connect_fd, recv_len, 4, 0))>=0)
-				{	// send_len 받아오는거
+				{	
+					// send_len 받아오는거
 					if(strcmp(recv_len, "NO")==0)
 					{
 						printf("Query Result>> Empty Result.\n");
