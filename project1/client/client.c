@@ -79,20 +79,20 @@ send_query(int connect_fd)
 			// 사실, while 안에 함수를 recv로 해도 되지 않나.
 			while(1)
 			{
-				if((recv(connect_fd, recv_len, 4, 0))>=0)
+				if((recv(connect_fd, recv_len, 4, 0)) >= 0)
 				{	
 					// [Check Query Result]
-					if(strncmp(recv_len, "NO", strlen("NO"))==0)
+					if(strncmp(recv_len, "NO", strlen("NO")) == 0)
 					{
 						printf("Query Result >> Empty Result.\n");
 						break;
 					}
-					else if(strncmp(recv_len, "ERR", strlen("ERR"))==0)
+					else if(strncmp(recv_len, "ERR", strlen("ERR")) == 0)
 					{	
 						printf("DB Server : Query Failed.\n");
 						break;
 					}
-					else if(strncmp(recv_len, "END", strlen("END"))==0)
+					else if(strncmp(recv_len, "END", strlen("END")) == 0)
 					{
 						break;
 					}
@@ -108,13 +108,13 @@ send_query(int connect_fd)
 					// 데이터 하나 받아오기(쿼리결과 하나)
 					// [Receive to data one by one]
 					memset(recvBuff, 0, sizeof(recvBuff));
-					if(recv(connect_fd, recvBuff, atoi(recv_len),0)<0)
+					if(recv(connect_fd, recvBuff, atoi(recv_len), 0) < 0)
 					{
-						printf("Client : %s\n",strerror(errno));
+						printf("Client : %s\n", strerror(errno));
 					}
 
 					// [Print Query Result] : print one line each
-					printf("%s", recvBuff);
+					printf("%s\n", recvBuff);
 				}
 				else
 				{
@@ -130,11 +130,11 @@ send_query(int connect_fd)
 			{
 				printf("DB Server : %s\n", strerror(errno));
 			}
-			else if(strncmp(recv_len, "ERR", strlen("ERR"))==0)
+			else if(strncmp(recv_len, "ERR", strlen("ERR")) == 0)
 			{
 				printf("DB Server : Query Failed.\n");
 			}
-			if(strncmp(recv_len, "DML", strlen("DML"))==0)
+			if(strncmp(recv_len, "DML", strlen("DML")) == 0)
 			{
 				printf("DB Server : Query Success.\n");
 			}
@@ -148,13 +148,6 @@ int
 close_socket(int connect_fd)
 {
 	close(connect_fd);
+
 	return 0;
 }
-
-
-
-
-
-
-
-

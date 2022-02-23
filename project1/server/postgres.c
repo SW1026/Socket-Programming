@@ -14,7 +14,7 @@ query_employee(PGconn * conn, const char *query)
 	int i;
 	for(i = 0 ; i < 128 ; ++i)
 	{
-		memset(result.res[i], 0, sizeof(char)*128);
+		memset(result.res[i], 0, sizeof(char) * 128);
 	}
 
 	//디비에 쿼리가 날라가는지의 결과를 반환하는 함수
@@ -28,15 +28,17 @@ query_employee(PGconn * conn, const char *query)
         syslog(LOG_ERR,"----- DB Server : QUERY ERROR OCCURS -----\n");
 		syslog(LOG_ERR, "%s\n", query_error_code);
 		syslog(LOG_ERR, "%s", query_error_msg);
+
+		// 추가된 코드
+		close_socket(conn);
+		printf("Test : END\n");
     }
 	else if(query_status == PGRES_EMPTY_QUERY)
 	{ 
 		//클라이언트에서 강제종료(Ctrl+c)했을 시
-		//syslog(LOG_ERR,"----- DB Server : QUERY ERROR OCCURS -----\n");
-		//syslog(LOG_ERR,"%s\n",query_error_code);
-		//syslog(LOG_ERR,"%s",query_error_msg);
-		//좀비서버가 되서 문제임..
-		close_socket(conn);//자식서버 통신 마무리
+		// 좀비서버가 되서 문제임..
+		// 자식서버 통신 마무리
+		close_socket(conn);
 		printf("--------------------------------------------------\n");
 		
 		exit(1); //클라이언트에서 강제종료하면, 이 시점에서 서버도 자동으로 종료된다. 명시적으로 써준 것.
@@ -46,7 +48,7 @@ query_employee(PGconn * conn, const char *query)
 		// 쿼리 설공
 		char* dml = NULL;
 
-		dml = strtok(query," ");	
+		dml = strtok(query, " ");	
 		if(strncmp(dml, "SELECT", strlen("SELECT")) == 0)
 		{
 			//show 명령어 일 경우
@@ -54,6 +56,7 @@ query_employee(PGconn * conn, const char *query)
 			if(result.rows==0)
 			{	//빈 테이블 반환 시
 				strcpy(result.type, "EMPTY RESULT");
+
 				return &result;
 			}
 			else if(result.rows > 0)
@@ -65,11 +68,11 @@ query_employee(PGconn * conn, const char *query)
 				strcpy(result.type, "SELECT RESULT");
 				for(row = 0; row < result.rows ; ++row)
 				{
-					id = PQgetvalue(query_res, row,0);
-					name= PQgetvalue(query_res,row,1);
-					age= PQgetvalue(query_res,row,2);
+					id = PQgetvalue(query_res, row, 0);
+					name= PQgetvalue(query_res, row, 1);
+					age= PQgetvalue(query_res, row, 2);
 
-					sprintf(result.res[row], "Query Result>> id : %s, name : %s, age : %s\n", id, name, age);
+					snprintf(result.res[row], sizeof(result.res[row]), "Query Result>> id : %s, name : %s, age : %s", id, name, age);
 				}
                 printf("DB Server : Query Success.\n");
 
@@ -79,7 +82,7 @@ query_employee(PGconn * conn, const char *query)
 
         //현재 상태 : PGRES_TUPLES_OK (쿼리가 성공적으로 실행됨.)
         printf("DB Server : Query Success.\n");
-		strcpy(result.type,"NOT SELECT");
+		strcpy(result.type, "NOT SELECT");
 
 		return &result;
 	}
