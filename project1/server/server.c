@@ -32,7 +32,6 @@ listen_socket()
 	}
 }
 
-
 void 
 connect_socket()
 {
@@ -165,8 +164,8 @@ send_result(int connect_fd, struct Result* result, char* sendBuff, char*recvBuff
 	}
 }
 
-
-void close_socket(PGconn * conn)
+void
+close_socket(PGconn * conn)
 {
 	PQfinish(conn);	//통신이 끝나서 DB를 닫아준다.
 	printf("DB Server : DB closed.\n");

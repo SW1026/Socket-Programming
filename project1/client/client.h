@@ -10,5 +10,5 @@
 #define MSG_SIZE 256	//클라이언트 -> 서버에게 보내는 쿼리문 길이 
 
 int init_socket();
-void send_query(int connect_fd);
-void close_socket(int connect_fd);
+int send_query(int connect_fd);
+int close_socket(int connect_fd);
