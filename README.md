@@ -12,8 +12,8 @@
 
 
 ### Directory Structure
-Socket Server : server/
-Socket Client : client/
+- Socket Server : modules/server/
+- Socket Client : modules/client/
 
 
 ### History
