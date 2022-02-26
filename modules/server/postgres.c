@@ -72,7 +72,7 @@ query_employee(PGconn * conn, const char *query)
 					name= PQgetvalue(query_res, row, 1);
 					age= PQgetvalue(query_res, row, 2);
 
-					snprintf(result.res[row], sizeof(result.res[row]), "Query Result>> id : %s, name : %s, age : %s", id, name, age);
+					snprintf(result.res[row], sizeof(result.res[row]), "Query Result>> id : %s, name : %s, age : %s\n", id, name, age);
 				}
                 printf("DB Server : Query Success.\n");
 

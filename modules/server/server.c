@@ -115,13 +115,13 @@ connect_socket()
 }
 
 void 
-send_result(int connect_fd, struct Result* result, char* sendBuff, char*recvBuff)
+send_result(int connect_fd, struct Result* result, char* sendBuff, char* recvBuff)
 {
 	char send_len[4];
 	memset(recvBuff, 0, sizeof(recvBuff));
 	memset(send_len, 0, sizeof(send_len));
 
-	sprintf(sendBuff,"------------------ Server Reply ------------------\n");
+	snprintf(sendBuff, sizeof(sendBuff), "------------------ Server Reply ------------------\n");
 	send(connect_fd, sendBuff, 51,0);
 
 	if(strncmp(result->type, "FAIL QUERY", strlen("FAIL QUERY")) == 0)

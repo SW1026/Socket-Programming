@@ -99,7 +99,7 @@ send_query(int connect_fd)
 
 					// [Reply "OK" to server] : ready to receive "show result" data.
 					memset(sendBuff, 0, sizeof(sendBuff));
-					sprintf(sendBuff, "OK");
+					snprintf(sendBuff, sizeof(sendBuff), "OK");
 					if(send(connect_fd, sendBuff, strlen(sendBuff), 0) < 0)
 					{
 						printf("Client : %s\n", strerror(errno));

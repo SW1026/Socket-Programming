@@ -20,11 +20,11 @@ char client_ip[20];
 int listen_fd, connect_fd;
 int client_len;
 
-extern struct Result;
+struct Result;
 
 void init_socket();
 void listen_socket();
 void connect_socket();
 void close_socket(PGconn*);
-void send_result(int,struct Result*,char*,char*);
+void send_result(int, struct Result*, char*, char*);
 
